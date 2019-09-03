@@ -21,7 +21,7 @@
 
 %% USER INPUTS
 h = 0.1;                     % sample time (s)
-N  = 4000;                    % number of samples. Should be adjusted
+N  = 2000;                    % number of samples. Should be adjusted
 
 % model parameters
 m = 180;
@@ -114,6 +114,21 @@ plot(t, psi_d, 'g');
 hold off;
 grid on;
 legend('\phi', '\theta', '\psi');
+title('Desired Euler angles');
+xlabel('time [s]'); 
+ylabel('angle [deg]');
+
+figure (5); clf;
+hold on;
+plot(t, phi, 'b');
+plot(t, theta, 'r');
+plot(t, psi, 'g');
+plot(t, phi_d, '--b');
+plot(t, theta_d, '--r');
+plot(t, psi_d, '--g');
+hold off;
+grid on;
+legend('\phi', '\theta', '\psi', '\phi_d', '\theta_d','\psi_d');
 title('Desired Euler angles');
 xlabel('time [s]'); 
 ylabel('angle [deg]');
