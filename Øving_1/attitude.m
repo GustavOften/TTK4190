@@ -21,7 +21,7 @@
 
 %% USER INPUTS
 h = 0.1;                     % sample time (s)
-N  = 400;                    % number of samples. Should be adjusted
+N  = 4000;                    % number of samples. Should be adjusted
 
 % model parameters
 m = 180;
@@ -41,20 +41,26 @@ q = euler2q(phi,theta,psi);   % transform initial Euler angles to q
 
 w = [0 0 0]';                 % initial angular rates
 
-table = zeros(N+1,14);        % memory allocation
+table = zeros(N+1,17);        % memory allocation
 
 %% FOR-END LOOP
 for i = 1:N+1,
-   t = (i-1)*h;                  % time
-   tau = [0.5 1 -1]';            % control law
-
+   t = (i-1)*h; % time
+   phi_d = 0*deg2rad;            % initial Euler angles
+   theta_d = 15*cos(0.1*t)*deg2rad;
+   psi_d = 10*sin(0.05*t)*deg2rad;
+   q_d = euler2q(phi_d, theta_d, psi_d);
+   %tau = [0.5 1 -1]';            % control law
+   %tau = -2*w -40*q(2:4); 
+   tau = -400*w - 20*(q_d(1)*q(2:4)+q(1)*q_d(2:4)+Smtrx(q(2:4))*q(2:4));
+   
    [phi,theta,psi] = q2euler(q); % transform q to Euler angles
    [J,J1,J2] = quatern(q);       % kinematic transformation matrices
    
    q_dot = J2*w;                        % quaternion kinematics
    w_dot = I_inv*(Smtrx(I*w)*w + tau);  % rigid-body kinetics
    
-   table(i,:) = [t q' phi theta psi w' tau'];  % store data in table
+   table(i,:) = [t q' phi theta psi w' tau' phi_d theta_d psi_d];  % store data in table
    
    q = q + h*q_dot;	             % Euler integration
    w = w + h*w_dot;
@@ -70,7 +76,9 @@ theta   = rad2deg*table(:,7);
 psi     = rad2deg*table(:,8);
 w       = rad2deg*table(:,9:11);  
 tau     = table(:,12:14);
-
+phi_d     = rad2deg*table(:,15);
+theta_d   = rad2deg*table(:,16);
+psi_d     = rad2deg*table(:,17);
 
 figure (1); clf;
 hold on;
@@ -81,6 +89,18 @@ hold off;
 grid on;
 legend('\phi', '\theta', '\psi');
 title('Euler angles');
+xlabel('time [s]'); 
+ylabel('angle [deg]');
+
+figure (4); clf;
+hold on;
+plot(t, phi_d, 'b');
+plot(t, theta_d, 'r');
+plot(t, psi_d, 'g');
+hold off;
+grid on;
+legend('\phi', '\theta', '\psi');
+title('Desired Euler angles');
 xlabel('time [s]'); 
 ylabel('angle [deg]');
 
