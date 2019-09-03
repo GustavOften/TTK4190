@@ -51,8 +51,22 @@ for i = 1:N+1,
    psi_d = 10*sin(0.05*t)*deg2rad;
    q_d = euler2q(phi_d, theta_d, psi_d);
    %tau = [0.5 1 -1]';            % control law
-   %tau = -2*w -40*q(2:4); 
-   tau = -400*w - 20*(q_d(1)*q(2:4)+q(1)*q_d(2:4)+Smtrx(q(2:4))*q(2:4));
+   
+   % control law task 1.2 
+   %tau = -2*w -40*q(2:4);
+   
+   % control law task 1.4
+   q_squiggly = (q_d(1)*q(2:4)+q(1)*q_d(2:4)+Smtrx(q(2:4))*q(2:4));
+   %tau = -400*w - 20*q_squiggly; 
+   
+   % control law task 1.6
+   T_inverse = [1 0           -sin(phi_d);
+          0 cos(phi_d)  cos(theta_d)*sin(phi_d);
+          0 -sin(phi_d) cos(theta_d)*cos(phi_d)];
+   Theta_dot = [0 -1.5*sin(0.1*t)*deg2rad 0.5*cos(0.05*t)*deg2rad]';   
+   w_d = T_inverse * Theta_dot;
+   w_squiggly = w - w_d;
+   tau = -400*w_squiggly - 20*q_squiggly;
    
    [phi,theta,psi] = q2euler(q); % transform q to Euler angles
    [J,J1,J2] = quatern(q);       % kinematic transformation matrices
