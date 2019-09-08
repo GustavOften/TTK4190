@@ -1,6 +1,6 @@
 % Parameters
 T = 20; % Nomoto time constant
-k = 0.1; % Nomoto gain
+K = 0.1; % Nomoto gain
 
 b = 0.001; % Constant bias
 
@@ -13,6 +13,6 @@ psi_0 = 0;
 r_0 = 0;
 
 % PID-controller gains
-k_p = 1;
-k_d = 1;
-k_i = 0.1;
+k_p = 0.01;
+k_d = 0.01;
+k_i = 0.001;
