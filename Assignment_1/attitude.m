@@ -21,7 +21,7 @@
 
 %% USER INPUTS
 h = 0.1;                     % sample time (s)
-N  = 2000;                    % number of samples. Should be adjusted
+N  = 2000; %was 2000                   % number of samples. Should be adjusted
 
 % model parameters
 m = 180;
@@ -53,11 +53,11 @@ for i = 1:N+1,
    %tau = [0.5 1 -1]';            % control law
    
    % control law task 1.2 
-   %tau = -2*w -40*q(2:4);
+   tau = -40*w -2*q(2:4);
    
    % control law task 1.4
-   q_squiggly = (q_d(1)*q(2:4)+q(1)*q_d(2:4)+Smtrx(q(2:4))*q(2:4));
-   %tau = -400*w - 20*q_squiggly; 
+   eps_tilde = (q_d(1)*q(2:4)-q(1)*q_d(2:4)-Smtrx(q(2:4))*q(2:4));
+   %tau = -400*w - 20*eps_tilde; 
    
    % control law task 1.6
    T_inverse = [1 0           -sin(phi_d);
@@ -65,8 +65,8 @@ for i = 1:N+1,
           0 -sin(phi_d) cos(theta_d)*cos(phi_d)];
    Theta_dot = [0 -1.5*sin(0.1*t)*deg2rad 0.5*cos(0.05*t)*deg2rad]';   
    w_d = T_inverse * Theta_dot;
-   w_squiggly = w - w_d;
-   tau = -400*w_squiggly - 20*q_squiggly;
+   w_tilde = w - w_d;
+   %tau = -400*w_tilde - 20*eps_tilde;
    
    [phi,theta,psi] = q2euler(q); % transform q to Euler angles
    [J,J1,J2] = quatern(q);       % kinematic transformation matrices
