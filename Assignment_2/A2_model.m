@@ -1,5 +1,6 @@
 %% Aircraft Model
 
+
 % Statespace matrices
 A = [ -0.322    0.052   0.028   -1.12   0.002;
          0        0       1     -0.001    0;
@@ -16,5 +17,10 @@ C = [ 1 0 0 0 0
       0 0 1 0 0
       0 0 0 1 0 ];
   
+  
 % Airspeed [km/h]
 V_a = 580; 
+
+
+% Actuator dynamics
+H_l = tf([0 7.5],[1 7.5]);
