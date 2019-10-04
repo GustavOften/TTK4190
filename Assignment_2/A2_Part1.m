@@ -18,6 +18,7 @@ eig_spiral = (A(4,4)*A(3,1)-A(4,1)*A(3,4))/A(3,1);
 
 %Roll mode
 eig_roll = A(3,3);
+
 %% Problem 2
 
 % 2.a) -----------------------------------------------------------
@@ -40,13 +41,16 @@ omega_n_chi = 1/W_chi * omega_n_phi;
 
 % Roll control parameters
 k_p_phi = delta_a_max/e_phi_max * sign(a_phi_2);                    
-k_i_phi = 0;   
+k_i_phi = 0.2;   
 k_d_phi = 2 * zeta_phi * omega_n_phi/a_phi_2;
 
 % Course control parameters
 k_p_chi = 2 * zeta_chi * omega_n_chi * V_g/g;     
 k_i_chi = omega_n_chi^2 * V_g/g;  
 
+H_phi_phic = tf([ k_p_phi*a_phi_2          k_i_phi*a_phi_2 ], ...
+                [     1             (a_phi_1 + a_phi_2*k_d_phi) ...
+                  k_p_phi*a_phi_2          k_i_phi*a_phi_2 ]);
 
 % 2.c) -----------------------------------------------------------
 
