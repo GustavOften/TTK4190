@@ -21,6 +21,7 @@ C = [ 1 0 0 0 0
 % Airspeed [km/h]
 V_a = 580; 
 
+g = 9.81;
 
 % Actuator dynamics
 H_l = tf([0 7.5],[1 7.5]);
