@@ -73,30 +73,46 @@ hold on;
 plot(out.chi, "b");
 plot(out.chi_control, "r");
 plot(out.delta_control, "m--")
-title("Controller performance, simplified model");
+title("Task 2d, controller performance, simplified model");
 xlabel("time [s]");
 ylabel("angle [deg]");
 grid on;
 hold off;
 legend({"chi [deg]", "chi_c [deg]", "delta_a [deg]"}, "Location", "northeast");
 
-% figure('rend','painters','pos',[10 10 750 400])
-% hold on;
-% 
-% title("Plot of chi control");
-% xlabel("time[s]");
-% ylabel("chi control[deg]");
-% grid on;
-% hold off;
 
-% figure('rend','painters','pos',[10 10 750 400])
-% hold on;
-% plot(out.delta_control)
-% title("Plot of delta control");
-% xlabel("time[s]");
-% ylabel("delta control[deg]");
-% grid on;
-% hold off;
+%% 2.f ------------------------------------------------------------
 
+% Augmented parameters
+W_chi = 8; % was 15
+omega_n_chi = 1/W_chi * omega_n_phi;
 
+% Course control parameters
+k_p_chi = 2 * zeta_chi * omega_n_chi * V_g/g;     
+k_i_chi = omega_n_chi^2 * V_g/g;  
 
+out2 = sim('model_autopilot', sim_time);
+
+figure('rend','painters','pos',[10 10 750 400])
+hold on;
+plot(out2.chi, "b");
+plot(out2.chi_control, "r");
+plot(out2.delta_control, "m--")
+title("Task 2f, controller performance, simplified model");
+xlabel("time [s]");
+ylabel("angle [deg]");
+grid on;
+hold off;
+legend({"chi [deg]", "chi_c [deg]", "delta_a [deg]"}, "Location", "northeast");
+
+figure('rend','painters','pos',[10 10 750 400])
+hold on;
+plot(out2.e_chi_integral, "b");
+plot(out2.delta_control, "r");
+plot(out2.delta_saturated, "m--")
+title("Task 2f, wind up analysis");
+xlabel("time [s]");
+ylabel("angle [deg]");
+grid on;
+hold off;
+legend({"e chi integral [deg*s]", "delta [deg]", "delta saturated [deg]"}, "Location", "northeast");
