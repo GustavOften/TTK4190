@@ -34,9 +34,9 @@ H_p_delta_a = tf([0 a_phi_2], [1 a_phi_1]);
 delta_a_max = 30;
 e_phi_max = 15;
 zeta_phi = 0.707;
-zeta_chi = 0.9;
+zeta_chi = 0.9; % was 0.9
 d = 1.5*pi/180;
-W_chi = 7;
+W_chi = 15; % was 7
 omega_n_phi = sqrt(abs(a_phi_2) * delta_a_max/e_phi_max);
 omega_n_chi = 1/W_chi * omega_n_phi;
 
@@ -72,11 +72,13 @@ figure('rend','painters','pos',[10 10 750 400])
 hold on;
 plot(out.chi, "b");
 plot(out.chi_control, "r");
-title("Plot of chi");
+plot(out.delta_control, "m--")
+title("Controller performance, simplified model");
 xlabel("time [s]");
 ylabel("angle [deg]");
 grid on;
 hold off;
+legend({"chi [deg]", "chi_c [deg]", "delta_a [deg]"}, "Location", "northeast");
 
 % figure('rend','painters','pos',[10 10 750 400])
 % hold on;
@@ -87,14 +89,14 @@ hold off;
 % grid on;
 % hold off;
 
-figure('rend','painters','pos',[10 10 750 400])
-hold on;
-plot(out.delta_control)
-title("Plot of delta control");
-xlabel("time[s]");
-ylabel("delta control[deg]");
-grid on;
-hold off;
+% figure('rend','painters','pos',[10 10 750 400])
+% hold on;
+% plot(out.delta_control)
+% title("Plot of delta control");
+% xlabel("time[s]");
+% ylabel("delta control[deg]");
+% grid on;
+% hold off;
 
 
 
