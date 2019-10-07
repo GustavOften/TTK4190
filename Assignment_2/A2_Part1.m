@@ -78,7 +78,7 @@ xlabel("time [s]");
 ylabel("angle [deg]");
 grid on;
 hold off;
-legend({"chi [deg]", "chi_c [deg]", "delta_a [deg]"}, "Location", "northeast");
+legend({"\chi [deg]", "\chi_c [deg]", "\delta_a [deg]"}, "Location", "northeast");
 
 % figure('rend','painters','pos',[10 10 750 400])
 % hold on;
