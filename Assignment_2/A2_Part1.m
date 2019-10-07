@@ -35,7 +35,7 @@ delta_a_max = 30;
 e_phi_max = 15;
 zeta_phi = 0.707;
 zeta_chi = 0.9;
-d = 1.5;
+d = 1.5*pi/180;
 W_chi = 7;
 omega_n_phi = sqrt(abs(a_phi_2) * delta_a_max/e_phi_max);
 omega_n_chi = 1/W_chi * omega_n_phi;
@@ -63,28 +63,29 @@ rlocus(tf_root_analysis_k_i_phi);
 
 
 %% 2.d) -----------------------------------------------------------
-sim_time = 10;
-chi_control = timeseries(ones(sim_time,1));
+
+sim_time = 500;
 
 out = sim('model_autopilot', sim_time);
 
 figure('rend','painters','pos',[10 10 750 400])
 hold on;
-plot(out.chi)
+plot(out.chi, "b");
+plot(out.chi_control, "r");
 title("Plot of chi");
-xlabel("time[s]");
-ylabel("chi[deg]");
+xlabel("time [s]");
+ylabel("angle [deg]");
 grid on;
 hold off;
 
-figure('rend','painters','pos',[10 10 750 400])
-hold on;
-plot(chi_control)
-title("Plot of chi control");
-xlabel("time[s]");
-ylabel("chi control[deg]");
-grid on;
-hold off;
+% figure('rend','painters','pos',[10 10 750 400])
+% hold on;
+% 
+% title("Plot of chi control");
+% xlabel("time[s]");
+% ylabel("chi control[deg]");
+% grid on;
+% hold off;
 
 figure('rend','painters','pos',[10 10 750 400])
 hold on;
