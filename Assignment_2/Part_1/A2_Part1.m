@@ -98,21 +98,23 @@ hold on;
 plot(out2.chi, "b");
 plot(out2.chi_control, "r");
 plot(out2.delta_control, "m--")
-title("Task 2f, controller performance, simplified model");
+title("Task 2f, wind up analysis, simplified controller");
 xlabel("time [s]");
 ylabel("angle [deg]");
+xlim([0 350]);
 grid on;
 hold off;
-legend({"chi [deg]", "chi_c [deg]", "delta_a [deg]"}, "Location", "northeast");
+legend({"\chi [deg]", "\chi_c [deg]", "\delta_a [deg]"}, "Location", "northeast");
 
 figure('rend','painters','pos',[10 10 750 400])
 hold on;
 plot(out2.e_chi_integral, "b");
 plot(out2.delta_control, "r");
 plot(out2.delta_saturated, "m--")
-title("Task 2f, wind up analysis");
+title("Task 2f, wind up analysis, saturation and integral");
+xlim([0 350]);
 xlabel("time [s]");
 ylabel("angle [deg]");
 grid on;
 hold off;
-legend({"e chi integral [deg*s]", "delta [deg]", "delta saturated [deg]"}, "Location", "northeast");
+legend({"e_\chi integral [deg*s]", "\delta [deg]", "\delta saturated [deg]"}, "Location", "northeast");
