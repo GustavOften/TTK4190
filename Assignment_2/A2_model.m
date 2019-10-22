@@ -21,6 +21,7 @@ C = [ 1 0 0 0 0
 % Airspeed [km/h]
 V_a = 580; 
 
+% Gravity constant
 g = 9.81;
 
 % Actuator dynamics
