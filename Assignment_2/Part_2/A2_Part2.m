@@ -2,6 +2,7 @@ clear; close all;
 
 %% Assignment 2 Part 2
 
+addpath('/Users/paalthorseth/Documents/Git/TTK4190/Assignment_2');
 A2_model;
 
 %% Parameters
