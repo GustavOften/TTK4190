@@ -35,6 +35,14 @@ k_p_chi = 2 * zeta_chi * omega_n_chi * V_g/g;
 k_i_chi = omega_n_chi^2 * V_g/g;  
 
 
+%% 3.d) -----------------------------------------------------------
+
+% Observability matrix
+O = obsv(A,C);
+
+rank_O = rank(O);
+
+
 %% 3.e) -----------------------------------------------------------
 
 sim_time = 500;
