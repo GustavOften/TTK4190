@@ -6,11 +6,11 @@ addpath('/Users/paalthorseth/Documents/Git/TTK4190/Assignment_3/Handouts/Matlab'
 
 %% Task 1.2
 
-%% Task 1.3
-
 % Model parameters
 K       = 1;
 T       = 1;
+
+%% Task 1.3
 
 %% Task 1.4
 
