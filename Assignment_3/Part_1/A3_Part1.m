@@ -12,14 +12,8 @@ T       = 1;
 
 %% Task 1.3
 
-%% Task 1.4
 
-% Initial conditions (might be unnecessary, see run.m)
-u0      = 6.63;
-v0      = 0;
-psi0    = 0;
-r0      = 0;
-n_c0    = 7.3;
+%% Task 1.4
 
 % Heading control parameters
 zeta    = 1;        % Damping ratio
