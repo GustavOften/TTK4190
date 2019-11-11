@@ -2,40 +2,42 @@
 
 % Add handoutfiles to path
 addpath('/Users/paalthorseth/Documents/Git/TTK4190/Assignment_3/Handouts/Matlab');
-
+addpath('/Users/paalthorseth/Documents/Git/TTK4190/MSS-master');
 
 %% Task 1.2
 
+% Not needed for this task
 K_p = 0;
 K_d = 0;
 K_i = 0;
 
 % Rudder reference
-delta_c = 15;
+delta_c = -5*pi/180;
 
 % Simulate system
 run;
 
-% Initial heading rate
-r0 = 0;
-
 % Heading rate, r(t)
-r_fun   = @(x,xdata)(r0*exp(-xdata/x(1)) + (1 - exp(-xdata/x(1))*x(2)*delta_c));
+fun     = @(x,xdata)(r0*exp(-xdata/x(1)) + (1 - exp(-xdata/x(1)))*x(2)*delta_c);
 
+% Defining data
+x0      = [50,0.1]';
+xdata   = t;
+ydata   = r*180/pi; % Heading rate in deg/s
 
 % Nonlinear curve fitting using least squares
-x0      = [1,1]';
-x       = lsqcurvefit(r_fun, x0, t, r);
+x       = lsqcurvefit(fun, x0, xdata, ydata);
 
 % Plotting solution
-times = linspace(t(1),t(end));
-plot(t,r,'ko',times,r_fun(x,times),'b-');
-legend('Data','Fitted exponential');
-title('Data and Fitted Curve');
+times = linspace(xdata(1),xdata(end));
+plot(xdata, ydata,'ko',times,fun(x,times),'b-');
+title('Nonlinear least-squares fit of MS Fartøystyring model for \delta = 5 (deg)')
+xlabel('time (s)')
+legend('Nonlinear model','Estimated 1st-order Nomoto model')
 
 % Model parameters
-K       = 1;
-T       = 1;
+T       = x(1);
+K       = x(2);
 
 %% Task 1.3
 
