@@ -10,7 +10,17 @@ addpath('/Users/paalthorseth/Documents/Git/TTK4190/MSS-master');
 delta_c = -5*pi/180;
 
 % Simulate system
-run;
+tstart=0;           % Sim start time
+tstop=10000;        % Sim stop time
+tsamp=10;           % Sampling time for how often states are stored. (NOT ODE solver time step)
+                
+p0=zeros(2,1);      % Initial position (NED)
+v0=[6.63 0]';       % Initial velocity (body)
+psi0=0;             % Inital yaw angle
+r0=0;               % Inital yaw rate
+c=0;                % Current on (1)/off (0)
+
+sim MSFartoystyring % The measurements from the simulink model are automatically written to the workspace.
 
 % Heading rate, r(t)
 fun     = @(x,xdata)(r0*exp(-xdata/x(1)) + (1 - exp(-xdata/x(1)))*x(2)*(delta_c*180/pi));
@@ -41,6 +51,7 @@ K       = x(2);
 T       = 130.7054;
 K       = -0.0544;
 
+
 % Heading control parameters
 zeta    = 1;        % Damping ratio
 omega_n = 10*0.004; % Natural frequency
@@ -49,8 +60,20 @@ K_p     = T/K * omega_n^2;
 K_i     = omega_n/10 * K_p;
 K_d     = 1/K * (2*zeta*omega_n*T - 1);
 
+
 % Simulate system
-run;
+tstart=0;           % Sim start time
+tstop=10000;        % Sim stop time
+tsamp=10;           % Sampling time for how often states are stored. (NOT ODE solver time step)
+                
+p0=zeros(2,1);      % Initial position (NED)
+v0=[6.63 0]';       % Initial velocity (body)
+psi0=0;             % Inital yaw angle
+r0=0;               % Inital yaw rate
+c=1;                % Current on (1)/off (0)
+
+sim MSFartoystyring % The measurements from the simulink model are automatically written to the workspace.
+
 
 % Plot
 
