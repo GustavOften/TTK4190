@@ -158,6 +158,8 @@ v0=[4 0]';       % Initial velocity (body)
 psi0=0;             % Inital yaw angle
 r0=0;               % Inital yaw rate
 c=0;                % Current on (1)/off (0)
+
+
 dc_mode = DC_MODE.CONTROLLER;
 nc_mode = NC_MODE.STEP;
 psi_d_amp = 0;
@@ -172,7 +174,7 @@ sim MSFartoystyring % The measurements from the simulink model are automatically
 
 plot(t,psi);
 % Heading rate, r(t)
-fun_surge     = @(x,xdata)(-delta_nc*x(2)/x(1) + exp(x(1)*xdata)*(v0(1) + delta_nc*x(2)/x(1)));
+fun_surge     = @(x,xdata)(-nc_step_final*x(2)/x(1) + exp(x(1)*xdata)*(v0(1) + nc_step_final*x(2)/x(1)));
 
 % Defining data used for curve fitting
 x0_surge      = [-1,1]';
@@ -191,23 +193,35 @@ xlabel('time (s)')
 legend('Nonlinear model','Estimated 1st order surge model')
 grid on;
 
-K_p_u = (1/450+x_surge(1))/x_surge(2);
-r_reg = (-x_surge(1)+x_surge(2)*k)/x_surge(2);
+k_reg = (1/450+x_surge(1))/x_surge(2);
+r_reg = (1/450)/x_surge(2);
 
 dc_mode = DC_MODE.CONTROLLER;
 nc_mode = NC_MODE.CONTROLLER;
 nc_step_time  = 0;
 nc_step_start = 0;
 nc_step_final = 6;
-psi_d_amp = 0;
+psi_d_amp = 1*pi/180;
 psi_d_bias = 0;
 psi_d_freq = 0.001;
 c = 0;
+tstart=0;           % Sim start time
+tstop=10000;        % Sim stop time
+tsamp=10;           % Sampling time for how often states are stored. (NOT ODE solver time step)
+
+
+p0=zeros(2,1);      % Initial position (NED)
+v0=[4 0]';       % Initial velocity (body)
+psi0=0;             % Inital yaw angle
+r0=0;               % Inital yaw rate
+c=1;                % Current on (1)/off (0)
+K_p_u = 15;
+K_i_u = 0.001;
+K_d_u = 0;
 sim MSFartoystyring
 
-
-figure(3)
+figure(8)
 plot(t, psi);
-figure(4)
+figure(9)
 plot(t, v(:,1));
 
