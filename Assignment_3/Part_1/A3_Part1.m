@@ -47,7 +47,7 @@ times = linspace(xdata(1),xdata(end));
 plot(xdata, ydata,'r--');
 hold on;
 plot(times,fun(x,times),'b-');
-title('Nonlinear least-squares fit of MS Fartøystyring model for \delta = -5 (deg)')
+title('Nonlinear least-squares fit of MS Fartï¿½ystyring model for \delta = -5 (deg)')
 xlabel('time (s)')
 legend('Nonlinear model','Estimated 1st-order Nomoto model')
 
@@ -228,7 +228,7 @@ ylim([3.5 8.5]);
 % plot(decimate(xdata_surge, 8), decimate(ydata_surge,8),'ko');
 % hold on;
 % plot(times,fun_surge(x_surge,times),'b-')
-% title('Nonlinear least-squares fit of MS Fartøystyring model for nc = 8 rad/s')
+% title('Nonlinear least-squares fit of MS Fartï¿½ystyring model for nc = 8 rad/s')
 % xlabel('Time [s]')
 % legend('Nonlinear model','Estimated 1st order surge model', ...
 %     'location','southeast')
