@@ -6,11 +6,6 @@ addpath('/Users/paalthorseth/Documents/Git/TTK4190/MSS-master');
 
 %% Task 1.2
 
-% Not needed for this task
-K_p = 0;
-K_d = 0;
-K_i = 0;
-
 % Rudder reference
 delta_c = -5*pi/180;
 
@@ -29,6 +24,7 @@ ydata   = r*180/pi; % Heading rate in deg/s
 x       = lsqcurvefit(fun, x0, xdata, ydata);
 
 % Plot
+figure(1);
 times = linspace(xdata(1),xdata(end));
 plot(xdata, ydata,'ko',times,fun(x,times),'b-');
 title('Nonlinear least-squares fit of MS Fartøystyring model for \delta = -5 (deg)')
@@ -38,10 +34,6 @@ legend('Nonlinear model','Estimated 1st-order Nomoto model')
 % Model parameters
 T       = x(1);
 K       = x(2);
-
-%% Task 1.3
-
-
 
 %% Task 1.4
 
@@ -60,7 +52,70 @@ K_d     = 1/K * (2*zeta*omega_n*T - 1);
 % Simulate system
 run;
 
-% Plot TODO BETTER PLOT
-times = linspace(t(1), t(end));
-plot(t, psi); hold on;
-plot(psi_d);
+% Plot
+
+% Heading
+figure('rend','painters','pos',[10 10 750 400]);
+
+subplot(1,2,1);
+hold on;
+plot(t, psi*180/pi,'b-');
+plot(t, psi_d*180/pi, 'r-.');
+grid on;
+hold off;
+title('Heading $\psi$ versus Heading reference $\psi_d$', 'Interpreter', 'latex');
+xlabel('Time [s]', 'Interpreter', 'latex');
+ylabel('Angle [deg]', 'Interpreter', 'latex');
+legend('$\psi$', '$\psi_d$', 'Interpreter', 'latex');
+
+subplot(1,2,2);
+hold on;
+plot(t, tilde_psi*180/pi,'k-');
+grid on;
+hold off;
+title('Heading error $\tilde{\psi}$', 'Interpreter', 'latex');
+xlabel('Time [s]', 'Interpreter', 'latex');
+ylabel('Angle [deg]', 'Interpreter', 'latex');
+legend('$\tilde{\psi}$', 'Interpreter', 'latex');
+
+% Heading rate
+figure('rend','painters','pos',[10 10 750 400]);
+
+subplot(1,2,1);
+hold on;
+plot(t, r*180/pi,'b-');
+plot(t, r_d*180/pi, 'r-.');
+grid on;
+hold off;
+title('Heading rate $r$ versus Heading rate reference $r_d$', 'Interpreter', 'latex');
+xlabel('Time [s]', 'Interpreter', 'latex');
+ylabel('Angle [deg]', 'Interpreter', 'latex');
+legend('$r$', '$r_d$', 'Interpreter', 'latex');
+
+subplot(1,2,2);
+hold on;
+plot(t, tilde_r*180/pi,'k-');
+grid on;
+hold off;
+title('Heading rate error $\tilde{r}$', 'Interpreter', 'latex');
+xlabel('Time [s]', 'Interpreter', 'latex');
+ylabel('Angle [deg]', 'Interpreter', 'latex');
+legend('$\tilde{r}$', 'Interpreter', 'latex');
+
+% Rudder input
+figure('rend','painters','pos',[10 10 750 400]);
+
+hold on;
+plot(t, delta_c_PID*180/pi,'r-');
+plot(t, -25*ones(size(t)), 'g-.');
+plot(t, 25*ones(size(t)), 'g-.');
+ylim([-30,30]);
+grid on;
+hold off;
+title('Rudder input $\delta_c$ with saturation limits', 'Interpreter', 'latex');
+xlabel('Time [s]', 'Interpreter', 'latex');
+ylabel('Angle [deg]', 'Interpreter', 'latex');
+legend('$\delta_c$', 'Interpreter', 'latex');
+
+
+
