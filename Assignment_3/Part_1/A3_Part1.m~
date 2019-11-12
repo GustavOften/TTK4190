@@ -12,7 +12,7 @@ K_d = 0;
 K_i = 0;
 
 % Rudder reference
-delta_c = -5*pi/180;
+delta_c = 5*pi/180;
 
 % Simulate system
 run;
@@ -23,7 +23,7 @@ fun     = @(x,xdata)(r0*exp(-xdata/x(1)) + (1 - exp(-xdata/x(1)))*x(2)*(delta_c*
 % Defining data used for curve fitting
 x0      = [50,0.1]';
 xdata   = t;
-ydata   = r*180/pi; % Heading rate in deg/s
+ydata   = -r*180/pi; % Heading rate in deg/s
 
 % Nonlinear curve fitting using least squares
 x       = lsqcurvefit(fun, x0, xdata, ydata);
@@ -31,7 +31,7 @@ x       = lsqcurvefit(fun, x0, xdata, ydata);
 % Plot
 times = linspace(xdata(1),xdata(end));
 plot(xdata, ydata,'ko',times,fun(x,times),'b-');
-title('Nonlinear least-squares fit of MS Fartøystyring model for \delta = -5 (deg)')
+title('Nonlinear least-squares fit of MS Fartøystyring model for \delta = 5 (deg)')
 xlabel('time (s)')
 legend('Nonlinear model','Estimated 1st-order Nomoto model')
 
@@ -46,8 +46,8 @@ K       = x(2);
 %% Task 1.4
 
 % Model parameters
-T       = 130.7054;
-K       = -0.0544;
+T       = 113.7941;
+K       = 0.0594;
 
 % Heading control parameters
 zeta    = 1;        % Damping ratio
@@ -60,7 +60,7 @@ K_d     = 1/K * (2*zeta*omega_n*T - 1);
 % Simulate system
 run;
 
-% Plot TODO BETTER PLOT
+% Plot
 times = linspace(t(1), t(end));
 plot(t, psi); hold on;
 plot(psi_d);
