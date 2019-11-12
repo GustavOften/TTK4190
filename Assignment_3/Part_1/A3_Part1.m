@@ -1,8 +1,13 @@
 %% Assignment 3 - Part 1
 
 % Add handoutfiles to path
-addpath('/Users/paalthorseth/Documents/Git/TTK4190/Assignment_3/Handouts/Matlab');
-addpath('/Users/paalthorseth/Documents/Git/TTK4190/MSS-master');
+%addpath('/Users/paalthorseth/Documents/Git/TTK4190/Assignment_3/Handouts/Matlab');
+addpath('../Handouts/Matlab');
+%addpath('/Users/paalthorseth/Documents/Git/TTK4190/MSS-master');
+addpath('../../MSS-master');
+addpath('../Common')
+
+dummy_values;
 
 %% Task 1.2
 
@@ -19,7 +24,7 @@ v0=[6.63 0]';       % Initial velocity (body)
 psi0=0;             % Inital yaw angle
 r0=0;               % Inital yaw rate
 c=0;                % Current on (1)/off (0)
-
+dc_mode = DC_MODE.CONSTANT;
 sim MSFartoystyring % The measurements from the simulink model are automatically written to the workspace.
 
 % Heading rate, r(t)
@@ -56,9 +61,9 @@ K       = -0.0544;
 zeta    = 1;        % Damping ratio
 omega_n = 10*0.004; % Natural frequency
 
-K_p     = T/K * omega_n^2; 
-K_i     = omega_n/10 * K_p;
-K_d     = 1/K * (2*zeta*omega_n*T - 1);
+K_p_psi = T/K * omega_n^2; 
+K_i_psi = omega_n/10 * K_p;
+K_d_psi = 1/K * (2*zeta*omega_n*T - 1);
 
 
 % Simulate system
@@ -71,7 +76,7 @@ v0=[6.63 0]';       % Initial velocity (body)
 psi0=0;             % Inital yaw angle
 r0=0;               % Inital yaw rate
 c=1;                % Current on (1)/off (0)
-
+dc_mode = DC_MODE.CONTROLLER;
 sim MSFartoystyring % The measurements from the simulink model are automatically written to the workspace.
 
 
@@ -139,6 +144,8 @@ title('Rudder input $\delta_c$ with saturation limits', 'Interpreter', 'latex');
 xlabel('Time [s]', 'Interpreter', 'latex');
 ylabel('Angle [deg]', 'Interpreter', 'latex');
 legend('$\delta_c$', 'Interpreter', 'latex');
+
+%% task 1.5
 
 
 
