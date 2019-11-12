@@ -11,3 +11,7 @@ K_d_u = 0;
 nc_step_time  = 0;
 nc_step_start = 0;
 nc_step_final = 0;
+
+psi_d_amp = 0;
+psi_d_bias = 0;
+psi_d_freq = 0;

@@ -147,5 +147,67 @@ legend('$\delta_c$', 'Interpreter', 'latex');
 
 %% task 1.5
 
+% Rudder reference
+% Simulate system
+tstart=0;           % Sim start time
+tstop=10000;        % Sim stop time
+tsamp=10;           % Sampling time for how often states are stored. (NOT ODE solver time step)
+                
+p0=zeros(2,1);      % Initial position (NED)
+v0=[4 0]';       % Initial velocity (body)
+psi0=0;             % Inital yaw angle
+r0=0;               % Inital yaw rate
+c=0;                % Current on (1)/off (0)
+dc_mode = DC_MODE.CONTROLLER;
+nc_mode = NC_MODE.STEP;
+psi_d_amp = 0;
+psi_d_bias = 0;
+psi_d_freq = 0;
+nc_step_time  = 0;
+nc_step_start = 0;
+nc_step_final = 8;
 
+
+sim MSFartoystyring % The measurements from the simulink model are automatically written to the workspace.
+
+plot(t,psi);
+% Heading rate, r(t)
+fun_surge     = @(x,xdata)(-delta_nc*x(2)/x(1) + exp(x(1)*xdata)*(v0(1) + delta_nc*x(2)/x(1)));
+
+% Defining data used for curve fitting
+x0_surge      = [-1,1]';
+xdata_surge   = t;
+ydata_surge   = v(:,1); % Heading rate in deg/s
+
+% Nonlinear curve fitting using least squares
+x_surge      = lsqcurvefit(fun_surge, x0_surge, xdata_surge, ydata_surge);
+
+% Plot
+figure(1);
+times = linspace(xdata_surge(1),xdata_surge(end));
+plot(xdata_surge, ydata_surge,'ko',times,fun_surge(x_surge,times),'b-');
+title('Nonlinear least-squares fit of MS Fartøystyring model for nc = 8 rad/s')
+xlabel('time (s)')
+legend('Nonlinear model','Estimated 1st order surge model')
+grid on;
+
+K_p_u = (1/450+x_surge(1))/x_surge(2);
+r_reg = (-x_surge(1)+x_surge(2)*k)/x_surge(2);
+
+dc_mode = DC_MODE.CONTROLLER;
+nc_mode = NC_MODE.CONTROLLER;
+nc_step_time  = 0;
+nc_step_start = 0;
+nc_step_final = 6;
+psi_d_amp = 0;
+psi_d_bias = 0;
+psi_d_freq = 0.001;
+c = 0;
+sim MSFartoystyring
+
+
+figure(3)
+plot(t, psi);
+figure(4)
+plot(t, v(:,1));
 
