@@ -177,13 +177,13 @@ psi_d_amp = 0;
 psi_d_bias = 0;
 psi_d_freq = 0;
 
-nc_step_time  = 5000;
+nc_step_time  = 0;
 nc_step_start = 5;
 nc_step_final = 8;
 
 sim MSFartoystyring 
 
-start_index = floor((nc_step_time-1000)/tsamp);
+start_index = floor((nc_step_time)/tsamp) + 1;
 end_index   = floor((tstop)/tsamp) + 1;
 indata      = nc(start_index:end_index);
 outdata     = v(start_index:end_index, 1);
@@ -191,8 +191,8 @@ outdata     = v(start_index:end_index, 1);
 iodata      = iddata(outdata, indata, tsamp);
 tfinfo      = tfest(iodata, 1);
 
-vel_gain    = tfinfo.Numerator(1)/tfinfo.Denominator(2)
-vel_ts      = 1/tfinfo.Denominator(2)
+vel_gain    = tfinfo.Numerator(1)/tfinfo.Denominator(2);
+vel_ts      = 1/tfinfo.Denominator(2);
 
 u_sim       = lsim(tfinfo, nc, t);
 
@@ -210,32 +210,32 @@ grid on;
 xlim([4000 10000]);
 ylim([3.5 8.5]);
 
-% fun_surge     = @(x,xdata)(-nc_step_final*x(2)/x(1) + exp(x(1)*xdata)*(v0(1) + nc_step_final*x(2)/x(1)));
-% % MAGNE, changed from delta_nc to nc_step_final here. not sure if correct
-% 
-% % Defining data used for curve fitting
-% start_index   = floor(nc_step_time/tsamp);
-% x0_surge      = [-1,1]';
-% xdata_surge   = t(start_index:) - nc_step_time;
-% ydata_surge   = v(start_index:,1); % Heading rate in deg/s
-% 
-% % Nonlinear curve fitting using least squares
-% x_surge      = lsqcurvefit(fun_surge, x0_surge, xdata_surge, ydata_surge);
-% 
-% % Plot
-% figure();
-% times = linspace(xdata_surge(1),xdata_surge(end));
-% plot(decimate(xdata_surge, 8), decimate(ydata_surge,8),'ko');
-% hold on;
-% plot(times,fun_surge(x_surge,times),'b-')
-% title('Nonlinear least-squares fit of MS Fart�ystyring model for nc = 8 rad/s')
-% xlabel('Time [s]')
-% legend('Nonlinear model','Estimated 1st order surge model', ...
-%     'location','southeast')
-% grid on;
-% 
-% K_p_u = (1/450+x_surge(1))/x_surge(2);
-% r_reg = (-x_surge(1)+x_surge(2)*k)/x_surge(2);
+fun_surge     = @(x,xdata)(-nc_step_final*x(2)/x(1) + exp(x(1)*xdata)*(v0(1) + nc_step_final*x(2)/x(1)));
+% MAGNE, changed from delta_nc to nc_step_final here. not sure if correct
+
+% Defining data used for curve fitting
+start_index   = floor(nc_step_time/tsamp) + 1;
+x0_surge      = [-1,1]';
+xdata_surge   = t(start_index:end_index) - nc_step_time;
+ydata_surge   = v(start_index:end_index,1); % Heading rate in deg/s
+
+% Nonlinear curve fitting using least squares
+x_surge      = lsqcurvefit(fun_surge, x0_surge, xdata_surge, ydata_surge);
+
+% Plot
+figure();
+times = linspace(xdata_surge(1),xdata_surge(end));
+plot(xdata_surge, ydata_surge, 'ko'); %decimate(xdata_surge, 8), decimate(ydata_surge,8),'ko');
+hold on;
+plot(times,fun_surge(x_surge,times),'b-')
+title('Nonlinear least-squares fit of MS Fartoystyring model for nc = 8 rad/s')
+xlabel('Time [s]')
+legend('Nonlinear model','Estimated 1st order surge model', ...
+    'location','southeast')
+grid on;
+
+k_reg = (1/300+x_surge(1))/x_surge(2);
+r_reg = (1/300/x_surge(2));
 
 %% task 1.7
 
