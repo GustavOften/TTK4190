@@ -259,7 +259,7 @@ psi_d_freq = 0;
 % velocity step reference
 u_d_step_time  = 1250;
 u_d_step_start = 3;
-u_d_step_final  = 7;
+u_d_step_final  = 8.3;
 
 % initial conditions
 v0   = [3 0]';        % Initial velocity (body)
