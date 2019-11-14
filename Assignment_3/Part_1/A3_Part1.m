@@ -47,8 +47,9 @@ figure('rend','painters','pos',[10 10 750 400]);
 times = linspace(xdata(1),xdata(end));
 plot(xdata, ydata,'r--');
 hold on;
+grid on;
 plot(times,fun(x,times),'b-');
-title('Least-squares fit of MS Fartoystyring, $\delta$ = $-5$ [deg]',...
+title('Least-squares fit of MS Fartoystyring, $\delta_c$ = $-5$ [deg]',...
     'interpreter','latex');
 xlabel('Time [s]','interpreter','latex');
 ylabel('Heading [deg]', 'interpreter', 'latex');
@@ -90,6 +91,10 @@ c    = 1;          % Current on (1)/off (0)
 dc_mode = DC_MODE.CONTROLLER;
 nc_mode = NC_MODE.CONSTANT;
 
+psi_d_amp  = 0.4;
+psi_d_bias = 0;
+psi_d_freq = 0.004;
+
 sim MSFartoystyring 
 
 
@@ -112,7 +117,7 @@ legend('$\psi$', '$\psi_d$', 'Interpreter', 'latex');
 
 subplot(1,2,2);
 hold on;
-plot(t, tilde_psi*180/pi,'k-');
+plot(t, tilde_psi*(-180/pi),'k-');
 grid on;
 hold off;
 title('Heading error $\tilde{\psi}$', 'Interpreter', 'latex');
@@ -137,7 +142,7 @@ legend('$r$', '$r_d$', 'Interpreter', 'latex');
 
 subplot(1,2,2);
 hold on;
-plot(t, tilde_r*180/pi,'k-');
+plot(t, tilde_r*(-180/pi),'k-');
 grid on;
 hold off;
 title('Heading rate error $\tilde{r}$', 'Interpreter', 'latex');
@@ -186,6 +191,10 @@ nc_step_time  = 0;
 nc_step_start = 5;
 nc_step_final = 8;
 
+psi_d_amp  = 0;
+psi_d_bias = 0;
+psi_d_freq = 0;
+
 sim MSFartoystyring 
 
 % start_index = floor((nc_step_time)/tsamp) + 1;
@@ -220,6 +229,7 @@ fun_surge = @(x,xdata) -nc_step_final*x(2)/x(1) + ...
 
 % Defining data used for curve fitting
 start_index   = floor(nc_step_time/tsamp) + 1;
+end_index     = size(t,1); 
 x0_surge      = [-1,1]';
 xdata_surge   = t(start_index:end_index) - nc_step_time;
 ydata_surge   = v(start_index:end_index,1); % Heading rate in deg/s
@@ -228,12 +238,12 @@ ydata_surge   = v(start_index:end_index,1); % Heading rate in deg/s
 x_surge      = lsqcurvefit(fun_surge, x0_surge, xdata_surge, ydata_surge);
 
 % Plot
-figure();
+figure('rend','painters','pos',[10 10 750 400]);
 times = linspace(xdata_surge(1),xdata_surge(end));
 plot(xdata_surge, ydata_surge, 'r--');
 hold on;
 plot(times,fun_surge(x_surge,times),'b-')
-title('Least-squares fit of MS Fartoystyring model for nc = 8 rad/s', ...
+title('Least-squares fit of MS Fartoystyring model for $n_c$ = $8$ rad/s', ...
     'interpreter','latex')
 xlabel('Time [s]','interpreter','latex')
 xlabel('Velocity [m/s]','interpreter','latex')
