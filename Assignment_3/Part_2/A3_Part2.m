@@ -9,6 +9,7 @@ addpath('../Common')
 
 dummy_values;
 
+
 %% Initial conditions
 
 p0=[1000,700]';     % Initial position (NED)
@@ -42,9 +43,9 @@ r_reg   = 1.3628;
 %% Task 2.1
 
 % Activate both controllers
-dc_mode = DC_MODE.CONTROLLER;
-nc_mode = NC_MODE.CONTROLLER;
-
+dc_mode  = DC_MODE.CONTROLLER;
+nc_mode  = NC_MODE.CONTROLLER;
+ref_mode = REF_MODE.PATH_FOLLOWING;
 
 % Simulate system
 tstart = 0;        % Sim start time
