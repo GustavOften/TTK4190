@@ -31,7 +31,8 @@ nc_mode = NC_MODE.CONSTANT;
 sim MSFartoystyring % The measurements from the simulink model are automatically written to the workspace.
 
 % Heading rate, r(t)
-fun     = @(x,xdata)(r0*exp(-xdata/x(1)) + (1 - exp(-xdata/x(1)))*x(2)*(delta_c*180/pi));
+fun     = @(x,xdata) r0*exp(-xdata/x(1)) + ...
+            (1 - exp(-xdata/x(1)))*x(2)*(delta_c*180/pi);
 
 % Defining data used for curve fitting
 x0      = [50,0.1]';
@@ -47,9 +48,12 @@ times = linspace(xdata(1),xdata(end));
 plot(xdata, ydata,'r--');
 hold on;
 plot(times,fun(x,times),'b-');
-title('Nonlinear least-squares fit of MS Fart�ystyring model for \delta = -5 (deg)')
-xlabel('time (s)')
-legend('Nonlinear model','Estimated 1st-order Nomoto model')
+title('Least-squares fit of MS Fartoystyring, $\delta$ = $-5$ [deg]',...
+    'interpreter','latex');
+xlabel('Time [s]','interpreter','latex');
+ylabel('Heading [deg]', 'interpreter', 'latex');
+legend('Nonlinear model','Estimated 1st-order Nomoto model',...
+    'interpreter','latex', 'location','southeast');
 
 % Model parameters
 T       = x(1);
@@ -100,7 +104,8 @@ plot(t, psi*180/pi,'b-');
 plot(t, psi_d*180/pi, 'r-.');
 grid on;
 hold off;
-title('Heading $\psi$ versus Heading reference $\psi_d$', 'Interpreter', 'latex');
+title('Heading $\psi$ versus Heading reference $\psi_d$', ...
+    'Interpreter', 'latex');
 xlabel('Time [s]', 'Interpreter', 'latex');
 ylabel('Angle [deg]', 'Interpreter', 'latex');
 legend('$\psi$', '$\psi_d$', 'Interpreter', 'latex');
@@ -210,8 +215,8 @@ sim MSFartoystyring
 % xlim([4000 10000]);
 % ylim([3.5 8.5]);
 
-fun_surge     = @(x,xdata)(-nc_step_final*x(2)/x(1) + exp(x(1)*xdata)*(v0(1) + nc_step_final*x(2)/x(1)));
-% MAGNE, changed from delta_nc to nc_step_final here. not sure if correct
+fun_surge = @(x,xdata) -nc_step_final*x(2)/x(1) + ...
+    exp(x(1)*xdata)*(v0(1) + nc_step_final*x(2)/x(1));
 
 % Defining data used for curve fitting
 start_index   = floor(nc_step_time/tsamp) + 1;
@@ -225,25 +230,23 @@ x_surge      = lsqcurvefit(fun_surge, x0_surge, xdata_surge, ydata_surge);
 % Plot
 figure();
 times = linspace(xdata_surge(1),xdata_surge(end));
-plot(xdata_surge, ydata_surge, 'r--'); %decimate(xdata_surge, 8), decimate(ydata_surge,8),'ko');
+plot(xdata_surge, ydata_surge, 'r--');
 hold on;
 plot(times,fun_surge(x_surge,times),'b-')
-title('Nonlinear least-squares fit of MS Fartoystyring model for nc = 8 rad/s')
-xlabel('Time [s]')
+title('Least-squares fit of MS Fartoystyring model for nc = 8 rad/s', ...
+    'interpreter','latex')
+xlabel('Time [s]','interpreter','latex')
+xlabel('Velocity [m/s]','interpreter','latex')
 legend('Nonlinear model','Estimated 1st order surge model', ...
-    'location','southeast')
+    'location','southeast','interpreter','latex')
 grid on;
-
-k_reg = (1/300+x_surge(1))/x_surge(2);
-r_reg = (1/300/x_surge(2));
 
 %% task 1.7
 
 % no simulation, only implementation
-
-K_p_u = 10;
-K_i_u = 0.01;
-K_d_u = 0;
+% pole placement of surge dynamics
+k_reg = (1/300+x_surge(1))/x_surge(2);
+r_reg = (1/300/x_surge(2));
 
 %% task 1.8
 
