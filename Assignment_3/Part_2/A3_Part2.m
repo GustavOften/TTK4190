@@ -66,11 +66,11 @@ tstop  = 10000;    % Sim stop time
 tsamp  = 10;       % Sampling time for how often states are stored. 
                    %     (NOT ODE solver time step)
                    
-sim MSFartoystyring 
+sim MSFartoystyring
 
 %% Plot closed-loop behaviour
 
-pathplotter(p(:,1), p(:,2), psi, tsamp, 1, tstart, tstop, 0, WP);
+pathplotter(p(:,1), p(:,2), psi, tsamp, 1, tstart, tout(end), 0, WP);
 
 %% Task 2.4 and 2.6
 
