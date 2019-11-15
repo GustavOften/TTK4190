@@ -16,7 +16,7 @@ p0=[1000,700]';     % Initial position (NED)
 v0=[6.63 0]';       % Initial velocity (body)
 psi0=60*pi/180;     % Inital yaw angle
 r0=0;               % Inital yaw rate
-c=1;                % Current on (1)/off (0)
+c=0;                % Current on (1)/off (0)
 delta_c=0;          % Constant reference, not used for this part
 
 %% Heading autopilot
