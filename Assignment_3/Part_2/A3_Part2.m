@@ -1,9 +1,7 @@
 %% Assignment 3 - Part 2
 
-% Add handoutfiles to path
-%addpath('/Users/paalthorseth/Documents/Git/TTK4190/Assignment_3/Handouts/Matlab');
+% Adding paths, must be run from part folder
 addpath('../Handouts/Matlab');
-%addpath('/Users/paalthorseth/Documents/Git/TTK4190/MSS-master');
 addpath('../../MSS-master');
 addpath('../Common')
 
@@ -16,7 +14,6 @@ v0=[6.63 0]';       % Initial velocity (body)
 psi0=60*pi/180;     % Inital yaw angle
 r0=0;               % Inital yaw rate
 c=1;                % Current on (1)/off (0)
-delta_c=0;          % Constant reference, not used for this part
 
 %% Heading autopilot
 
@@ -37,6 +34,9 @@ K_d_psi = 1/K * (2*zeta*omega_n*T - 1);
 % Speed control parameters, Feedback
 k_reg   = 0.3445;
 r_reg   = 1.3628;
+
+%% Load waypoints
+load('WP.mat');
                    
 %% Task 2.2
 
