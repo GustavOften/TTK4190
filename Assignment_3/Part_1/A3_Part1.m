@@ -1,9 +1,7 @@
 %% Assignment 3 - Part 1
 
 % Add handoutfiles to path
-%addpath('/Users/paalthorseth/Documents/Git/TTK4190/Assignment_3/Handouts/Matlab');
 addpath('../Handouts/Matlab');
-%addpath('/Users/paalthorseth/Documents/Git/TTK4190/MSS-master');
 addpath('../../MSS-master');
 addpath('../Common')
 
