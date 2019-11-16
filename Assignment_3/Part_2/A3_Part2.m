@@ -36,6 +36,7 @@ k_reg   = 0.3445;
 r_reg   = 1.3628;
 
 %% Load waypoints
+
 load('WP.mat');
                    
 %% Task 2.2
@@ -70,7 +71,7 @@ sim MSFartoystyring
 
 %% Plot closed-loop behaviour
 
-pathplotter(p(:,1), p(:,2), psi, tsamp, 1, tstart, tout(end), 0, WP);
+pathplotter(p(:,1), p(:,2), psi, tsamp, 1, tstart, t(end), 0, WP);
 
 %% Task 2.4 and 2.6
 
@@ -86,7 +87,7 @@ plot(t, chi_d*180/pi, 'r-');
 plot(t, beta*180/pi, 'm-');
 grid on;
 hold off;
-title('Heading $\psi$ vs Course $\chi$ vs Course reference $\chi_d$ vs crab angle $\beta$', 'Interpreter', 'latex');
+title('Heading $\psi$ vs Course $\chi$ vs Course reference $\chi_d$ vs Crab angle $\beta$', 'Interpreter', 'latex');
 xlabel('Time [s]', 'Interpreter', 'latex');
 ylabel('Angle [deg]', 'Interpreter', 'latex');
 legend('$\psi$', '$\chi$','$\chi_d$','$\beta$', 'Interpreter', 'latex');
