@@ -164,7 +164,7 @@ xlabel('Time [s]', 'Interpreter', 'latex');
 ylabel('Angle [deg]', 'Interpreter', 'latex');
 legend('$\delta_c$', 'Interpreter', 'latex');
 
-%% task 1.6
+%% Task 1.6
 
 % Rudder reference
 % Simulate system
@@ -323,7 +323,7 @@ grid on;
 hold off;
 title('Yaw-rate, PID controllers', 'Interpreter', 'latex');
 xlabel('Time [s]', 'Interpreter', 'latex');
-ylabel('Angle [deg/s]', 'Interpreter', 'latex');
+ylabel('Angular velocity [deg/s]', 'Interpreter', 'latex');
 legend('$r$', 'Interpreter', 'latex');
 
 
@@ -348,6 +348,6 @@ plot([0 max(t)], [(85*2*pi)/60 (85*2*pi)/60], 'b--');
 grid on;
 hold off;
 xlabel('Time [s]', 'Interpreter', 'latex');
-ylabel('Angle [deg, deg/s]', 'Interpreter', 'latex');
+ylabel('Angular velocity [deg/s]', 'Interpreter', 'latex');
 legend('$n_c$', 'Interpreter', 'latex');
 title('Shaft input, PID controllers', 'Interpreter', 'latex');
