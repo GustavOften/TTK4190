@@ -137,7 +137,7 @@ hold off;
 title('Heading rate $r$ versus Heading rate reference $r_d$', ...
     'Interpreter', 'latex');
 xlabel('Time [s]', 'Interpreter', 'latex');
-ylabel('Angle [deg]', 'Interpreter', 'latex');
+ylabel('Angular velocity [deg/s]', 'Interpreter', 'latex');
 legend('$r$', '$r_d$', 'Interpreter', 'latex');
 
 subplot(1,2,2);
@@ -147,7 +147,7 @@ grid on;
 hold off;
 title('Heading rate error $\tilde{r}$', 'Interpreter', 'latex');
 xlabel('Time [s]', 'Interpreter', 'latex');
-ylabel('Angle [deg]', 'Interpreter', 'latex');
+ylabel('Angular velocity [deg/s]', 'Interpreter', 'latex');
 legend('$\tilde{r}$', 'Interpreter', 'latex');
 
 % Rudder input
