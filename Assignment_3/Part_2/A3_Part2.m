@@ -52,7 +52,7 @@ tstop  = 10000;    % Sim stop time
 tsamp  = 10;       % Sampling time for how often states are stored. 
                    %     (NOT ODE solver time step)
                    
-sim MSFartoystyring 
+% sim MSFartoystyring 
 
 %% Task 2.6
 
@@ -67,27 +67,55 @@ tstop  = 10000;    % Sim stop time
 tsamp  = 10;       % Sampling time for how often states are stored. 
                    %     (NOT ODE solver time step)
                    
-sim MSFartoystyring
+%sim MSFartoystyring
 
 %% Plot closed-loop behaviour
 
-pathplotter(p(:,1), p(:,2), psi, tsamp, 1, tstart, t(end), 0, WP);
+%pathplotter(p(:,1), p(:,2), psi, tsamp, 1, tstart, t(end), 0, WP);
 
 %% Task 2.4 and 2.6
 
 % Course
-chi     = psi + beta;
+%chi     = psi + beta;
 
 % Plot
-figure('rend','painters','pos',[10 10 750 400]);
-hold on;
-plot(t, psi*180/pi,'b-.');
-plot(t, chi*180/pi,'g-');
-plot(t, chi_d*180/pi, 'r-');
-plot(t, beta*180/pi, 'm-');
-grid on;
-hold off;
-title('Heading $\psi$ vs Course $\chi$ vs Course reference $\chi_d$ vs Crab angle $\beta$', 'Interpreter', 'latex');
-xlabel('Time [s]', 'Interpreter', 'latex');
-ylabel('Angle [deg]', 'Interpreter', 'latex');
-legend('$\psi$', '$\chi$','$\chi_d$','$\beta$', 'Interpreter', 'latex');
+% figure('rend','painters','pos',[10 10 750 400]);
+% hold on;
+% plot(t, psi*180/pi,'b-.');
+% plot(t, chi*180/pi,'g-');
+% plot(t, chi_d*180/pi, 'r-');
+% plot(t, beta*180/pi, 'm-');
+% grid on;
+% hold off;
+% title('Heading $\psi$ vs Course $\chi$ vs Course reference $\chi_d$ vs Crab angle $\beta$', 'Interpreter', 'latex');
+% xlabel('Time [s]', 'Interpreter', 'latex');
+% ylabel('Angle [deg]', 'Interpreter', 'latex');
+% legend('$\psi$', '$\chi$','$\chi_d$','$\beta$', 'Interpreter', 'latex');
+
+%% Task 2.7
+
+dc_mode  = DC_MODE.CONTROLLER;
+nc_mode  = NC_MODE.CONTROLLER;
+ref_mode = REF_MODE.TARGET_TRACKING;
+
+
+
+tstop  = 5000;        % Sim stop time
+
+U_T = 3;              % Target speed [m/s]
+T_x0 = WP(1,2);
+T_y0 = WP(2,2);
+
+T_alpha   = atan2(WP(2,2)- WP(2,1), WP(1,2)- WP(1,1)); % Target travel direction
+T_xdot = U_T*cos(T_alpha);                             % Target x velocity
+T_ydot = U_T*sin(T_alpha);                             % Target y velocity
+
+sim MSFartoystyring 
+pathplotter(p(:,1), p(:,2), psi, tsamp, 1, tstart, tstop, 1, WP);
+
+figure
+plot(t,e);
+title('Cross-track Error');
+xlabel('Time [s]');
+ylabel('distance [m]');
+
